@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Inter", sans-serif;
+}
+
+:root{
+    --dark-blue: #5673A8;
+    --white: #ECEEF1;
+    --black: #191A1C;
+}
+
+body{
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   min-height: 100vh;
+   background: var(--dark-blue);
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: var(--white);
+    width: 534px;
+    height: 569px;
+    position: relative;
+}
+
+.container header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    height: 114px;
+    position: absolute;
+    top: 2px;
+    border-bottom: 1px solid var(--black);
+}
+
+.container header h1, .container header p{
+    margin-right: 150px;
+}
+
+.container header h1{
+    margin-right: 370px;
+    font-size: 26.4px;
+}
+
+.container .questions{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+    height: 351px;
+    width: 100%;
+    position: absolute;
+    bottom: 2px;
+    margin-bottom: 6.3rem;
+}
+
+.container .questions h3{
+    position: absolute;
+    top: 1px;
+    left: 2px;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+.container .questions .buttons{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.container .questions .buttons button{
+  margin-right: 12rem;
+  width: 280px;
+  height: 39px;
+  border: none;
+  background: #FFF5F5;
+  border-radius: 20px;
+  position: relative;
+  transition: 0.3s;
+}
+
+.buttons button:hover{
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
+.next{
+    position: absolute;
+    bottom: 2px;
+    margin-bottom: 1.5rem;
+    width: 131px;
+    height: 40px;
+    background: var(--dark-blue);
+    border-radius: 20px;
+    border: none;
+    color: var(--white);
+    font-weight: 500;
+    font-size: 18.15px;
+    transition: 0.3s;
+}
+
+.next:hover{
+    opacity: 0.7;
+}
