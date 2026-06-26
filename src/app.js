@@ -1,38 +1,122 @@
 const questionText = document.querySelector(".question");
-const answerBtn = document.querySelectorAll(".buttons button");
+const buttons = document.querySelectorAll(".buttons button");
 const nextBtn = document.querySelector(".next");
 
-const displayQuestion = () => {
-  nextBtn.style.display = "none"
-  const question = {
-    question: "What is the capital of the United States?",
-    answers: ["Berlin", "Madrid", "New York City", "Washington D.C"],
-    correctAnswer: "Washington D.C"
-  };
+let currentQuestionIndex = 0;
+let score = 0;
 
-  questionText.innerHTML = question.question;
+const questions = [
+  {
+    question: "What is the capital of Ethiopia?",
+    answers: ["Addis Ababa", "Nairobi", "Cairo", "Kampala"],
+    correct: "Addis Ababa"
+  },
+  {
+    question: "What does HTML stand for?",
+    answers: [
+      "Hyper Text Markup Language",
+      "Hot Mail",
+      "High Text Machine Language",
+      "Home Tool Markup Language"
+    ],
+    correct: "Hyper Text Markup Language"
+  },
+  {
+    question: "Which language runs in the browser?",
+    answers: ["Java", "C", "Python", "JavaScript"],
+    correct: "JavaScript"
+  }
+];
 
-  answerBtn.forEach((btn, index) => {
-    btn.innerHTML = question.answers[index];
+function loadQuestion() {
+  const current = questions[currentQuestionIndex];
+
+  questionText.textContent = current.question;
+
+  buttons.forEach((btn, index) => {
+    btn.textContent = current.answers[index];
+    btn.disabled = false;
+    btn.style.background = "";
   });
-};
 
-displayQuestion();
-const correctAnswer = "Washington D.C";
+  nextBtn.style.display = "none";
+}
 
-answerBtn.forEach((btn) => {
-  btn.addEventListener("click", () => {
-    const isCorrect = btn.textContent === correctAnswer;
+function selectAnswer(e) {
+  const selected = e.target.textContent;
+  const correct = questions[currentQuestionIndex].correct;
 
-    if (isCorrect) {
-      btn.style.background = "green";
-      btn.textContent = "Correct!";
-      btn.style.color = "var(--white)";
-      nextBtn.style.display = "block";
-    } else {
-      btn.style.background = "red";
-      btn.textContent = "Wrong!";
-      btn.style.color = "var(--black)";
-    }
-  });
+  buttons.forEach(btn => btn.disabled = true);
+
+  if (selected === correct) {
+    e.target.style.background = "green";
+    score++;
+  } else {
+    e.target.style.background = "red";
+
+    // highlight correct answer
+    buttons.forEach(btn => {
+      if (btn.textContent === correct) {
+        btn.style.background = "green";
+      }
+    });
+  }
+
+  nextBtn.style.display = "block";
+}
+
+buttons.forEach(btn => {
+  btn.addEventListener("click", selectAnswer);
 });
+
+nextBtn.addEventListener("click", () => {
+  currentQuestionIndex++;
+
+  if (currentQuestionIndex < questions.length) {
+    loadQuestion();
+  } else {
+    showResult();
+  }
+});
+
+function showResult() {
+  questionText.textContent = `You scored ${score} / ${questions.length}`;
+
+  buttons.forEach(btn => {
+    btn.style.display = "none";
+  });
+
+  nextBtn.textContent = "Restart";
+  nextBtn.style.display = "block";
+
+  nextBtn.onclick = () => {
+    currentQuestionIndex = 0;
+    score = 0;
+
+    buttons.forEach(btn => {
+      btn.style.display = "block";
+    });
+
+    nextBtn.textContent = "Next";
+    nextBtn.onclick = nextQuestion;
+    loadQuestion();
+  };
+}
+
+function nextQuestion() {
+  currentQuestionIndex++;
+
+  if (currentQuestionIndex < questions.length) {
+    loadQuestion();
+  } else {
+    showResult();
+  }
+}
+
+// override initial next behavior
+function start() {
+  nextBtn.onclick = nextQuestion;
+  loadQuestion();
+}
+
+start();
