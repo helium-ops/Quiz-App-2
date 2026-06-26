@@ -1,122 +1,111 @@
-const questionText = document.querySelector(".question");
-const buttons = document.querySelectorAll(".buttons button");
+const questionArea = document.querySelector(".question");
+const answerBtn = document.querySelectorAll(".buttons button");
 const nextBtn = document.querySelector(".next");
 
-let currentQuestionIndex = 0;
-let score = 0;
-
-const questions = [
-  {
-    question: "What is the capital of Ethiopia?",
-    answers: ["Addis Ababa", "Nairobi", "Cairo", "Kampala"],
-    correct: "Addis Ababa"
-  },
-  {
-    question: "What does HTML stand for?",
-    answers: [
-      "Hyper Text Markup Language",
-      "Hot Mail",
-      "High Text Machine Language",
-      "Home Tool Markup Language"
-    ],
-    correct: "Hyper Text Markup Language"
-  },
-  {
-    question: "Which language runs in the browser?",
-    answers: ["Java", "C", "Python", "JavaScript"],
-    correct: "JavaScript"
-  }
-];
-
-function loadQuestion() {
-  const current = questions[currentQuestionIndex];
-
-  questionText.textContent = current.question;
-
-  buttons.forEach((btn, index) => {
-    btn.textContent = current.answers[index];
-    btn.disabled = false;
-    btn.style.background = "";
-  });
-
-  nextBtn.style.display = "none";
+function showQuestion() {
+    let questions = {
+        question: "What is the capital of France?",
+        answer: "Paris",
+        answerChoises: ["Paris", "London", "Berlin", "Madrid"]
+    }
+    questionArea.innerHTML = questions.question;
+    answerBtn.forEach((btn, index) => {
+        btn.innerHTML = questions.answerChoises[index];
+    })
+    nextBtn.style.display = "none";
 }
+showQuestion();
 
-function selectAnswer(e) {
-  const selected = e.target.textContent;
-  const correct = questions[currentQuestionIndex].correct;
+let correctAnswer = 0;
 
-  buttons.forEach(btn => btn.disabled = true);
+let QuestionAnswered = 0;
+answerBtn.forEach((btn) => {
+    btn.addEventListener("click", ()=>{
+    QuestionAnswered++;
+    if(QuestionAnswered === 1){
+        if(btn.textContent === "Paris"){
+            btn.style.background = "green";
+            btn.style.color = "#FFF5F5";
+            correctAnswer++;
+        } else if(btn.textContent != "Paris"){
+            btn.style.background = "red";
+            btn.style.color = "#FFF5F5"
+        }
+        nextBtn.style.display = "";
+    } else if(QuestionAnswered === 2){
+        if(btn.textContent === "Berlin"){
+            btn.style.background = "green";
+            btn.style.color = "#FFF5F5";
+            correctAnswer++;
+        } else if(btn.textContent != "Berlin"){
+            btn.style.background = "red";
+            btn.style.color = "#FFF5F5"
+        }
+    } else if(QuestionAnswered === 3){
+        if(btn.textContent === "Madrid"){
+            btn.style.background = "green";
+            btn.style.color = "#FFF5F5";
+            correctAnswer++;
+        } else if(btn.textContent != "Madrid"){
+            btn.style.background = "red";
+            btn.style.color = "#FFF5F5"
+        }
+    } else if(QuestionAnswered === 4){
+        if(btn.textContent === "Rome"){
+            btn.style.background = "green";
+            btn.style.color = "#FFF5F5";
+            correctAnswer++;
+        } else if(btn.textContent != "Rome"){
+            btn.style.background = "red";
+            btn.style.color = "#FFF5F5"
+        }
+    }
+    
+        nextBtn.style.display = "";
+ })
+})
 
-  if (selected === correct) {
-    e.target.style.background = "green";
-    score++;
-  } else {
-    e.target.style.background = "red";
+localStorage.setItem("correctAnswer", correctAnswer);
 
-    // highlight correct answer
-    buttons.forEach(btn => {
-      if (btn.textContent === correct) {
-        btn.style.background = "green";
-      }
-    });
-  }
-
-  nextBtn.style.display = "block";
-}
-
-buttons.forEach(btn => {
-  btn.addEventListener("click", selectAnswer);
-});
-
-nextBtn.addEventListener("click", () => {
-  currentQuestionIndex++;
-
-  if (currentQuestionIndex < questions.length) {
-    loadQuestion();
-  } else {
-    showResult();
-  }
-});
-
-function showResult() {
-  questionText.textContent = `You scored ${score} / ${questions.length}`;
-
-  buttons.forEach(btn => {
-    btn.style.display = "none";
-  });
-
-  nextBtn.textContent = "Restart";
-  nextBtn.style.display = "block";
-
-  nextBtn.onclick = () => {
-    currentQuestionIndex = 0;
-    score = 0;
-
-    buttons.forEach(btn => {
-      btn.style.display = "block";
-    });
-
-    nextBtn.textContent = "Next";
-    nextBtn.onclick = nextQuestion;
-    loadQuestion();
-  };
-}
-
-function nextQuestion() {
-  currentQuestionIndex++;
-
-  if (currentQuestionIndex < questions.length) {
-    loadQuestion();
-  } else {
-    showResult();
-  }
-}
-
-// override initial next behavior
-function start() {
-  nextBtn.onclick = nextQuestion;
-  loadQuestion();
-}
-
-start();
+let clicked = 0;
+nextBtn.addEventListener("click", ()=>{
+    clicked += 1;
+    if(clicked === 1){
+        let questions = {
+            question: "What is the capital of Germany?",
+            answer: "Berlin",
+            answerChoises: ["Paris", "London", "Berlin", "Madrid"]
+        }
+        questionArea.innerHTML = questions.question;
+    answerBtn.forEach((btn, index) => {
+        btn.innerHTML = questions.answerChoises[index];
+    })
+    } else if(clicked === 2){
+        let questions = {
+            question: "What is the capital of Spain?",
+            answer: "Madrid",
+            answerChoises: ["Paris", "London", "Berlin", "Madrid"]
+        }
+        questionArea.innerHTML = questions.question;
+        answerBtn.forEach((btn, index) => {
+            btn.innerHTML = questions.answerChoises[index];
+        })
+    } else if(clicked === 3){
+        let questions = {
+            question: "What is the capital of Italy?",
+            answer: "Rome",
+            answerChoises: ["Paris", "London", "Berlin", "Rome"]
+        }
+        questionArea.innerHTML = questions.question;
+        answerBtn.forEach((btn, index) => {
+            btn.innerHTML = questions.answerChoises[index];
+        })
+    } else if(clicked === 4){
+        window.location.href = "../result/result.html";
+    }
+    answerBtn.forEach((btn) => {
+        btn.style.background = "#FFF5F5";
+        btn.style.color = "var(--black)";
+    })
+    nextBtn.style.display = "none";
+})
